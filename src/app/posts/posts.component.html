@@ -1,4 +1,17 @@
 <div class="p-4">
+  <div class="flex flex-row w-full justify-between content-center">
+    <div class="text-bold text-lg">Posts</div>
+
+	<button
+    appearance="secondary"
+    size="m"
+    tuiButton
+    type="button"
+>
+    <tui-icon icon="@tui.plus" [style.height.rem]="1" />
+    Novo Post
+</button>
+  </div>
   <table
     tuiTable
     class="table"
@@ -18,12 +31,31 @@
     >
     @for(post of paginatedData(); track $index) {
       <tr tuiTr >
-            <td *tuiCell="'number'" tuiTd> {{ $index + 1 }} </td>
-            <td *tuiCell="'title'" tuiTd> {{ post.title }} </td>
-            <td *tuiCell="'body'" tuiTd> {{ post.body }} </td>
+            <td *tuiCell="'number'" tuiTd>
+              <span
+        [tuiSkeleton]="
+            isLoadingResults ? 'This text': '' ">
+        {{ isLoadingResults ? '' : $index + 1 }}
+    </span>
+  </td>
+            <td *tuiCell="'title'" tuiTd>
+              <span
+        [tuiSkeleton]="
+            isLoadingResults ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
+        {{ isLoadingResults ? '' : post.title}}
+    </span>  </td>
+            <td *tuiCell="'body'" tuiTd>
+<span
+        [tuiSkeleton]="
+            isLoadingResults ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
+        {{ isLoadingResults ? '' :  post.body}}
+    </span> </td>
             <td *tuiCell="'actions'" tuiTd>
               <div class="flex flex-row">
-                	<button
+              <span
+        [tuiSkeleton]="isLoadingResults ? 'This text serves': '' ">
+        @if(!isLoadingResults) {
+<button
     appearance="flat"
     iconStart="@tui.pencil"
     size="m"
@@ -34,14 +66,17 @@
     Editar
 </button>
 	<button
-    appearance="flat"
+    appearance="flat-destructive"
     iconStart="@tui.trash"
     size="m"
     tuiIconButton
     type="button"
     [style.border-radius.%]="100"
+    (click)="deletePost(post.id)"
 > Deletar
 </button>
+        }</span>
+
               </div>
             </td>
         </tr>
@@ -57,6 +92,7 @@
     [page]="pageIndex"
     (paginationChange)="onPageChange($event)"
 />
+
 </div>
 
 

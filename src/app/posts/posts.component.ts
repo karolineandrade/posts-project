@@ -7,11 +7,13 @@ import {TuiIcon, TuiIconPipe} from '@taiga-ui/core';
 import {TuiTable, TuiTablePaginationEvent} from '@taiga-ui/addon-table';
 import {TuiButton} from '@taiga-ui/core';
 import { TuiTablePagination, tuiTablePaginationOptionsProvider} from '@taiga-ui/addon-table';
+import {TuiSkeleton} from '@taiga-ui/kit';
+import { AlertsService } from '../shared/service/alerts.service';
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css'],
-  imports: [CommonModule, TuiTable, TuiButton, TuiIcon, TuiTablePagination ],
+  imports: [CommonModule, TuiTable, TuiButton, TuiIcon, TuiTablePagination, TuiSkeleton ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
         tuiTablePaginationOptionsProvider({
@@ -22,6 +24,7 @@ import { TuiTablePagination, tuiTablePaginationOptionsProvider} from '@taiga-ui/
 })
 export class PostsComponent implements OnInit {
   private postsService: PostsService = inject(PostsService);
+  private alertService: AlertsService = inject(AlertsService);
 
   public posts: PostInterface[] = [];
   public displayedColumns: string[] = ['number', 'title', 'body', 'actions'];
@@ -70,6 +73,21 @@ paginatedData() {
   const start = this.pageIndex * this.pageSize;
   const end = start + this.pageSize;
   return this.posts.slice(start, end);
+}
+
+deletePost(index: number): void {
+  this.postsService.deletePost(index).subscribe({
+    next: (response) => {
+      console.log(response)
+        this.alertService.showSuccessAlert('Post deletado.');
+      this.posts = this.posts.filter(post => post.id !== index);
+    },
+      error: (err: Error) => {
+        console.error(err);
+        this.isLoadingResults = false;
+        this.alertService.showErrorAlert('Não foi possível deletar post.');
+     }
+  })
 }
 
 
