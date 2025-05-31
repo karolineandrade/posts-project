@@ -1,3 +1,63 @@
-<p>
-  posts works!
-</p>
+<div class="p-4">
+  <table
+    tuiTable
+    class="table"
+    [columns]="displayedColumns"
+>
+    <thead>
+        <tr tuiThGroup>
+            <th tuiTh [resizable]="true"> N. </th>
+            <th tuiTh>Título</th>
+            <th tuiTh>Mensagem</th>
+            <th tuiTh></th>
+        </tr>
+    </thead>
+    <tbody
+        tuiTbody
+        [data]="posts"
+    >
+    @for(post of paginatedData(); track $index) {
+      <tr tuiTr >
+            <td *tuiCell="'number'" tuiTd> {{ $index + 1 }} </td>
+            <td *tuiCell="'title'" tuiTd> {{ post.title }} </td>
+            <td *tuiCell="'body'" tuiTd> {{ post.body }} </td>
+            <td *tuiCell="'actions'" tuiTd>
+              <div class="flex flex-row">
+                	<button
+    appearance="flat"
+    iconStart="@tui.pencil"
+    size="m"
+    tuiIconButton
+    type="button"
+    [style.border-radius.%]="100"
+>
+    Editar
+</button>
+	<button
+    appearance="flat"
+    iconStart="@tui.trash"
+    size="m"
+    tuiIconButton
+    type="button"
+    [style.border-radius.%]="100"
+> Deletar
+</button>
+              </div>
+            </td>
+        </tr>
+    }
+
+    </tbody>
+</table>
+<div>
+<tui-table-pagination
+    [items]="pageSizeOptions"
+    [size]="pageSize"
+    [total]="resultsLength"
+    [page]="pageIndex"
+    (paginationChange)="onPageChange($event)"
+/>
+</div>
+
+
+</div>
