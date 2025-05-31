@@ -7,6 +7,7 @@
     size="m"
     tuiButton
     type="button"
+    (click)="showDialogPost(false)"
 >
     <tui-icon icon="@tui.plus" [style.height.rem]="1" />
     Novo Post
@@ -62,6 +63,7 @@
     tuiIconButton
     type="button"
     [style.border-radius.%]="100"
+    (click)="showDialogPost(true, post)"
 >
     Editar
 </button>

@@ -3,12 +3,13 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, inject, OnChanges, O
 import { PostsService } from '../shared/service/posts.service';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import { CommonModule } from '@angular/common';
-import {TuiIcon, TuiIconPipe} from '@taiga-ui/core';
+import {tuiDialog, TuiIcon, TuiIconPipe} from '@taiga-ui/core';
 import {TuiTable, TuiTablePaginationEvent} from '@taiga-ui/addon-table';
 import {TuiButton} from '@taiga-ui/core';
 import { TuiTablePagination, tuiTablePaginationOptionsProvider} from '@taiga-ui/addon-table';
 import {TuiSkeleton} from '@taiga-ui/kit';
 import { AlertsService } from '../shared/service/alerts.service';
+import { DialogPostComponent } from './dialog-post/dialog-post.component';
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
@@ -36,6 +37,13 @@ public pageSize = 10;
   public pageSizeOptions = [10, 20, 50, 100];
   public isLoadingResults = true;
   public isRateLimitReached = false;
+  public isEdit = false;
+
+  private dialog = tuiDialog(DialogPostComponent, {
+        dismissible: true,
+        label: this.isEdit ? 'Editar' : 'Adicionar',
+    });
+
 
   constructor() { }
 
@@ -90,6 +98,17 @@ deletePost(index: number): void {
   })
 }
 
-
+showDialogPost(isEdit: boolean, post?: PostInterface): void {
+  this.isEdit = isEdit
+  console.log(post)
+    this.dialog(post).subscribe({
+        next: (data) => {
+            console.info(`Dialog emitted data = ${data}`);
+        },
+        complete: () => {
+            console.info('Dialog closed');
+        },
+    });
+}
 
 }
