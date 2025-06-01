@@ -1,5 +1,6 @@
+import { map } from 'rxjs/operators';
 import { PostInterface } from './../shared/interface/PostInterface';
-import { ChangeDetectionStrategy, Component, inject, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { PostsService } from '../shared/service/posts.service';
 import { CommonModule } from '@angular/common';
 import {tuiDialog, TuiIcon, TuiIconPipe} from '@taiga-ui/core';
@@ -9,6 +10,7 @@ import { TuiTablePagination, tuiTablePaginationOptionsProvider} from '@taiga-ui/
 import {TuiSkeleton} from '@taiga-ui/kit';
 import { AlertsService } from '../shared/service/alerts.service';
 import { DialogPostComponent } from './dialog-post/dialog-post.component';
+import { StorageService } from '../shared/service/storage.service';
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
@@ -25,6 +27,8 @@ import { DialogPostComponent } from './dialog-post/dialog-post.component';
 export class PostsComponent implements OnInit, OnChanges {
   private postsService: PostsService = inject(PostsService);
   private alertService: AlertsService = inject(AlertsService);
+  private storageService: StorageService = inject(StorageService);
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   public posts: PostInterface[] = [];
   public displayedColumns: string[] = ['number', 'title', 'body', 'actions'];
@@ -52,7 +56,14 @@ export class PostsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.listAllPosts();
+    const storageList = this.storageService.getFromStorage('posts');
+
+    if(storageList === null) {
+      this.listAllPosts();
+    }
+    this.listPostsStorage();
+
+
   }
 
 
@@ -61,8 +72,9 @@ private listAllPosts(): void {
     .subscribe({
       next: (response) => {
        this.isLoadingResults = false;
-          this.posts = response;
-          this.resultsLength = response.length;
+          // this.posts = response;
+          // this.resultsLength = response.length;
+          this.storageService.saveToStorage('posts', JSON.stringify(response))
       },
       error: (err: Error) => {
         console.error(err);
@@ -71,7 +83,16 @@ private listAllPosts(): void {
     });
 }
 
-    onPageChange(event: TuiTablePaginationEvent) {
+private listPostsStorage(): void {
+  this.isLoadingResults = false;
+  const storageList = this.storageService.getFromStorage('posts');
+  this.posts = storageList ? JSON.parse(storageList) as PostInterface[] : [];
+  this.resultsLength = this.posts.length;
+  console.log(this.posts)
+}
+
+
+onPageChange(event: TuiTablePaginationEvent) {
   this.pageIndex = event.page ?? this.pageIndex;
   this.pageSize = event.size ?? this.pageSize;
 }
@@ -93,12 +114,12 @@ newPost(data: any): void {
     body: data.body,
     userId: Math.floor(Math.random() * 7)
   }
-
+  this.isLoadingResults = true;
   this.postsService.createPost(newP).subscribe({
     next: (response) => {
-      console.log(response)
-        this.alertService.showSuccessAlert('Post criado com sucesso.');
-
+      this.isLoadingResults = false;
+      this.alertService.showSuccessAlert('Post criado com sucesso.');
+      this.newPostToStorage(response);
     },
       error: (err: Error) => {
         console.error(err);
@@ -108,7 +129,18 @@ newPost(data: any): void {
   })
 }
 
+newPostToStorage(data: PostInterface): void {
+  const storageList = this.storageService.getFromStorage('posts');
+  const currentList = storageList ? JSON.parse(storageList) : [];
+  currentList.push(data);
+  this.storageService.saveToStorage('posts', JSON.stringify(currentList));
+  console.log(data)
+  this.listPostsStorage();
+}
+
 editPost(data: any, postId: number | undefined): void {
+      this.isLoadingResults = true;
+
   let newP: PostInterface = {
     title: data.title,
     body: data.body,
@@ -117,7 +149,8 @@ editPost(data: any, postId: number | undefined): void {
 
   this.postsService.patchPost(newP).subscribe({
     next: (response) => {
-      console.log(response)
+      this.editPostStorage(response);
+      this.isLoadingResults = false;
         this.alertService.showSuccessAlert('Post editado com sucesso.');
 
     },
@@ -128,13 +161,22 @@ editPost(data: any, postId: number | undefined): void {
      }
   })
 }
+// CAPRICHOSO TETRA
+editPostStorage(data: PostInterface): void {
+  const storageList = this.storageService.getFromStorage('posts');
+  const currentList = storageList ? JSON.parse(storageList) : [];
+  const updateList = currentList.map((post: PostInterface) => post.id === data.id ? data : post)
+  this.storageService.saveToStorage('posts', JSON.stringify(updateList));
+  this.listPostsStorage();
+}
 
 deletePost(index: number): void {
+  this.isLoadingResults = true;
   this.postsService.deletePost(index).subscribe({
     next: (response) => {
-      console.log(response)
+      this.isLoadingResults = false;
         this.alertService.showSuccessAlert('Post deletado.');
-      this.posts = this.posts.filter(post => post.id !== index);
+      this.deletePostStorage(index);
     },
       error: (err: Error) => {
         console.error(err);
@@ -142,6 +184,15 @@ deletePost(index: number): void {
         this.alertService.showErrorAlert('Não foi possível deletar post.');
      }
   })
+}
+
+deletePostStorage(postId: number): void {
+  const index = this.posts.findIndex(post => post.id === postId);
+  if (index !== -1) {
+    this.posts.splice(index, 1);
+    this.storageService.saveToStorage('posts', JSON.stringify(this.posts));
+    this.listPostsStorage();
+  }
 }
 
 showDialogPost(isEdit: boolean, post?: PostInterface): void {
