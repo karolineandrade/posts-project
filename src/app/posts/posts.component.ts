@@ -11,11 +11,13 @@ import {TuiSkeleton} from '@taiga-ui/kit';
 import { AlertsService } from '../shared/service/alerts.service';
 import { DialogPostComponent } from './dialog-post/dialog-post.component';
 import { StorageService } from '../shared/service/storage.service';
+import { CommentsService } from '../shared/service/comments.service';
+import { CommentsComponent } from './comments/comments.component';
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css'],
-  imports: [CommonModule, TuiTable, TuiButton, TuiIcon, TuiTablePagination, TuiSkeleton ],
+  imports: [CommonModule, TuiTable, TuiButton, TuiIcon, TuiTablePagination, TuiSkeleton, CommentsComponent ],
   providers: [
         tuiTablePaginationOptionsProvider({
             showPages: true
@@ -39,6 +41,7 @@ export class PostsComponent implements OnInit, OnChanges {
   public isRateLimitReached = false;
   public isEdit = false;
   public label = 'Adicionar';
+  public selectedPost!: PostInterface;
 
   private dialog = tuiDialog(DialogPostComponent, {
         dismissible: true,
@@ -59,7 +62,6 @@ export class PostsComponent implements OnInit, OnChanges {
 
     if(storageList === null) {
       this.listAllPosts();
-      console.log('aqui')
     }
     this.listPostsStorage();
 
@@ -213,4 +215,7 @@ showDialogPost(isEdit: boolean, post?: PostInterface): void {
     });
 }
 
+onSelectPost(post: PostInterface): void {
+  this.selectedPost = post;
+}
 }
