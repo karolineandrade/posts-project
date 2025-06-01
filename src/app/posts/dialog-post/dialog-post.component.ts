@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, NgControl, ReactiveFormsModule, Validators } from '@angular/forms';
 	import {TuiButton, TuiDialogContext, TuiDialogService, TuiTextfield} from '@taiga-ui/core';
-import {TuiTextarea} from '@taiga-ui/kit';
+import {TuiTextarea, TuiTextareaLimit} from '@taiga-ui/kit';
 import { PostInterface } from '../../shared/interface/PostInterface';
 import {injectContext} from '@taiga-ui/polymorpheus';
 import {TuiInputModule} from '@taiga-ui/legacy';
@@ -11,10 +11,10 @@ import {TuiIcon} from '@taiga-ui/core';
   selector: 'app-dialog-post',
   templateUrl: './dialog-post.component.html',
   styleUrls: ['./dialog-post.component.css'],
-  imports: [FormsModule, ReactiveFormsModule, TuiTextarea, TuiButton, TuiTextfield, TuiInputModule,TuiIcon]
+  imports: [FormsModule, ReactiveFormsModule, TuiTextarea, TuiButton, TuiTextfield, TuiInputModule, TuiIcon, TuiTextareaLimit]
 })
 export class DialogPostComponent implements OnInit {
-  public readonly post = injectContext<TuiDialogContext<PostInterface | undefined, PostInterface | undefined>>();
+  public readonly context = injectContext<TuiDialogContext<PostInterface | undefined, PostInterface | undefined>>();
   private readonly dialogs = inject(TuiDialogService);
   public formPost!: FormGroup;
 
@@ -24,6 +24,10 @@ export class DialogPostComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+
+    if(this.context != undefined) {
+      this.setFormValue()
+    }
   }
 
   initForm(): void {
@@ -33,12 +37,22 @@ export class DialogPostComponent implements OnInit {
     })
   }
 
-  get data(): PostInterface | undefined {
-        return this.post.data;
+  setFormValue(): void {
+    this.formPost.patchValue(this.post!);
+  }
+
+  get post(): PostInterface | undefined {
+        return this.context.data;
     }
 
   protected showDialog(content: TemplateRef<TuiDialogContext>): void {
         this.dialogs.open(content, {dismissible: true}).subscribe();
+    }
+
+    onSaveForm(): void {
+      if(this.formPost.valid){
+        this.context.completeWith(this.formPost.value)
+      }
     }
 
 }

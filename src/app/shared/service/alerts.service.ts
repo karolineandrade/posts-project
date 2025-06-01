@@ -9,10 +9,17 @@ private readonly alerts = inject(TuiAlertService);
 
 constructor() { }
 
-showAlert(type: string, header: string, message: string) {
+showSuccessAlert(message: string) {
   this.alerts
-  .open(message, {label: header, appearance: type})
+  .open(message, {label: 'Sucesso', appearance: 'success'})
   .subscribe()
 }
+
+showErrorAlert(message: string) {
+  this.alerts
+  .open(message, {label: 'Erro', appearance: 'negative'})
+  .subscribe()
+}
+
 
 }

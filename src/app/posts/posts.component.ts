@@ -1,7 +1,6 @@
 import { PostInterface } from './../shared/interface/PostInterface';
-import { AfterViewInit, ChangeDetectionStrategy, Component, inject, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { PostsService } from '../shared/service/posts.service';
-import {merge, Observable, of as observableOf} from 'rxjs';
 import { CommonModule } from '@angular/common';
 import {tuiDialog, TuiIcon, TuiIconPipe} from '@taiga-ui/core';
 import {TuiTable, TuiTablePaginationEvent} from '@taiga-ui/addon-table';
@@ -23,29 +22,34 @@ import { DialogPostComponent } from './dialog-post/dialog-post.component';
     ],
 
 })
-export class PostsComponent implements OnInit {
+export class PostsComponent implements OnInit, OnChanges {
   private postsService: PostsService = inject(PostsService);
   private alertService: AlertsService = inject(AlertsService);
 
   public posts: PostInterface[] = [];
   public displayedColumns: string[] = ['number', 'title', 'body', 'actions'];
-  posts$!: Observable<PostInterface[]>;
-
   public resultsLength = 0;
-public pageSize = 10;
+  public pageSize = 10;
   public pageIndex = 0;
   public pageSizeOptions = [10, 20, 50, 100];
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public isEdit = false;
+  public label = 'Adicionar';
 
   private dialog = tuiDialog(DialogPostComponent, {
         dismissible: true,
-        label: this.isEdit ? 'Editar' : 'Adicionar',
+        label: this.label,
     });
 
 
   constructor() { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['isEdit']) {
+      this.label = this.isEdit ? 'Editar' : 'Adicionar';
+    }
+  }
 
   ngOnInit() {
     this.listAllPosts();
@@ -83,6 +87,48 @@ paginatedData() {
   return this.posts.slice(start, end);
 }
 
+newPost(data: any): void {
+  let newP: PostInterface = {
+    title: data.title,
+    body: data.body,
+    userId: Math.floor(Math.random() * 7)
+  }
+
+  this.postsService.createPost(newP).subscribe({
+    next: (response) => {
+      console.log(response)
+        this.alertService.showSuccessAlert('Post criado com sucesso.');
+
+    },
+      error: (err: Error) => {
+        console.error(err);
+        this.isLoadingResults = false;
+        this.alertService.showErrorAlert('Não foi possível criar novo post.');
+     }
+  })
+}
+
+editPost(data: any, postId: number | undefined): void {
+  let newP: PostInterface = {
+    title: data.title,
+    body: data.body,
+    id: postId
+  }
+
+  this.postsService.patchPost(newP).subscribe({
+    next: (response) => {
+      console.log(response)
+        this.alertService.showSuccessAlert('Post editado com sucesso.');
+
+    },
+      error: (err: Error) => {
+        console.error(err);
+        this.isLoadingResults = false;
+        this.alertService.showErrorAlert('Não foi possível editar post.');
+     }
+  })
+}
+
 deletePost(index: number): void {
   this.postsService.deletePost(index).subscribe({
     next: (response) => {
@@ -100,14 +146,22 @@ deletePost(index: number): void {
 
 showDialogPost(isEdit: boolean, post?: PostInterface): void {
   this.isEdit = isEdit
-  console.log(post)
+  console.log(isEdit)
     this.dialog(post).subscribe({
         next: (data) => {
             console.info(`Dialog emitted data = ${data}`);
+            if(isEdit) {
+              this.editPost(data, post?.id);
+            } else {
+            this.newPost(data);
+            }
         },
         complete: () => {
+          this.listAllPosts();
             console.info('Dialog closed');
         },
+
+
     });
 }
 

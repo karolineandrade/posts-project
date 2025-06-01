@@ -1,10 +1,10 @@
 <div class="flex flex-column gap-4">
-<form [formGroup]="formPost" class="w-full">
+<form  [formGroup]="formPost" class="w-full">
   <label tuiLabel class="w-full mt-4">
     Título
     	<tui-textfield>
     <input
-        placeholder="Insira o título do post"
+        placeholder="Insira o título"
         tuiTextfield
         formControlName="title"
     />
@@ -15,9 +15,12 @@
   Mensagem
   <tui-textfield tuiTextfieldSi ze="m" >
         <textarea
-            placeholder="Insira o conteúdo do post"
+            placeholder="Insira a mensagem"
             formControlName="body"
             tuiTextarea
+            [limit]="200"
+            [max]="6"
+            [min]="3"
         ></textarea>
     </tui-textfield>
 </label>
@@ -29,6 +32,7 @@
     type="button"
     class="w-full mt-4"
     [disabled]="formPost.invalid"
+    (click)="onSaveForm()"
 >
     <tui-icon icon="@tui.save" [style.height.rem]="1" />
     Salvar

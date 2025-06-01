@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CreatePostInterface, PostInterface } from '../interface/PostInterface';
+import { PostInterface } from '../interface/PostInterface';
 import { environment } from '../../../environments/environments';
 
 @Injectable({
@@ -18,12 +18,12 @@ export class PostsService {
     return this.http.get<PostInterface>(`${environment.url}/posts/${id}`);
   }
 
-    createPost(post: CreatePostInterface): Observable<PostInterface> {
+    createPost(post: PostInterface): Observable<PostInterface> {
     return this.http.post<PostInterface>(`${environment.url}/posts/`, post);
   }
 
     patchPost(post: PostInterface): Observable<PostInterface> {
-    return this.http.patch<PostInterface>(`${environment.url}/posts//${post.id}`, post);
+    return this.http.patch<PostInterface>(`${environment.url}/posts/${post.id}`, post);
   }
 
     putPost(post: PostInterface): Observable<PostInterface> {
