@@ -11,7 +11,6 @@ import {TuiSkeleton} from '@taiga-ui/kit';
 import { AlertsService } from '../shared/service/alerts.service';
 import { DialogPostComponent } from './dialog-post/dialog-post.component';
 import { StorageService } from '../shared/service/storage.service';
-import { CommentsService } from '../shared/service/comments.service';
 import { CommentsComponent } from './comments/comments.component';
 @Component({
   selector: 'app-posts',
