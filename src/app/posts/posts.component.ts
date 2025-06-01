@@ -16,7 +16,6 @@ import { StorageService } from '../shared/service/storage.service';
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css'],
   imports: [CommonModule, TuiTable, TuiButton, TuiIcon, TuiTablePagination, TuiSkeleton ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
         tuiTablePaginationOptionsProvider({
             showPages: true
@@ -60,6 +59,7 @@ export class PostsComponent implements OnInit, OnChanges {
 
     if(storageList === null) {
       this.listAllPosts();
+      console.log('aqui')
     }
     this.listPostsStorage();
 
@@ -89,6 +89,8 @@ private listPostsStorage(): void {
   this.posts = storageList ? JSON.parse(storageList) as PostInterface[] : [];
   this.resultsLength = this.posts.length;
   console.log(this.posts)
+  this.cdr.markForCheck();
+
 }
 
 
@@ -130,10 +132,8 @@ newPost(data: any): void {
 }
 
 newPostToStorage(data: PostInterface): void {
-  const storageList = this.storageService.getFromStorage('posts');
-  const currentList = storageList ? JSON.parse(storageList) : [];
-  currentList.push(data);
-  this.storageService.saveToStorage('posts', JSON.stringify(currentList));
+  this.posts.push(data);
+  this.storageService.saveToStorage('posts', JSON.stringify(this.posts));
   console.log(data)
   this.listPostsStorage();
 }
@@ -163,9 +163,7 @@ editPost(data: any, postId: number | undefined): void {
 }
 // CAPRICHOSO TETRA
 editPostStorage(data: PostInterface): void {
-  const storageList = this.storageService.getFromStorage('posts');
-  const currentList = storageList ? JSON.parse(storageList) : [];
-  const updateList = currentList.map((post: PostInterface) => post.id === data.id ? data : post)
+  const updateList = this.posts.map((post: PostInterface) => post.id === data.id ? data : post)
   this.storageService.saveToStorage('posts', JSON.stringify(updateList));
   this.listPostsStorage();
 }
@@ -197,7 +195,6 @@ deletePostStorage(postId: number): void {
 
 showDialogPost(isEdit: boolean, post?: PostInterface): void {
   this.isEdit = isEdit
-  console.log(isEdit)
     this.dialog(post).subscribe({
         next: (data) => {
             console.info(`Dialog emitted data = ${data}`);
