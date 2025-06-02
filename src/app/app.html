@@ -1,4 +1,21 @@
-<tui-root>
-<router-outlet />
+<tui-root [attr.tuiTheme]="darkMode() ? 'dark' : null">
+<header tuiNavigationHeader class="justify-between">
+<span tuiNavigationLogo class="text-2xl"> Posts Project </span>
+<span>
+<button
+      [iconStart]="darkMode() ? 'moon' : 'sun'"
+      tuiIconButton
+      type="button"
+      size="xl"
+      (click)="darkMode.set(!darkMode())"
+  >
+      Mudar tema
+  </button>
+</span>
 
+
+</header>
+<main tuiNavigationMain>
+<router-outlet />
+</main>
 </tui-root>
