@@ -1,0 +1,42 @@
+<div class="flex flex-row w-full p-4">
+      <div class="flex flex-col">
+<tui-avatar
+    [src]="getFirstChar(comment.name)"
+    class="text-blue-600"
+    size="l"
+    [style.background]=" getFirstChar(comment.name) | tuiAutoColor"
+/>
+      </div>
+
+
+<div class="flex flex-col ms-3">
+  <p class="font-bold text-base">{{comment()?.name}} <span class="font-normal italic">({{ comment()?.email }})</span></p>
+  <span class="text-sm">{{comment()?.body}}</span>
+  <div class="flex flex-row">
+  	<button
+    appearance="flat"
+    size="xs"
+    tuiButton
+    type="button"
+    (click)="editComment()"
+>
+    <tui-icon icon="@tui.pencil" [style.height.rem]="1" />
+    Editar
+</button>
+
+  	<button
+    appearance="flat-destructive"
+    size="xs"
+    tuiButton
+    type="button"
+    (click)="deleteComment(comment()?.id!)"
+
+>
+    <tui-icon icon="@tui.pencil" [style.height.rem]="1" />
+    Excluir
+</button>
+</div>
+</div>
+
+
+</div>
