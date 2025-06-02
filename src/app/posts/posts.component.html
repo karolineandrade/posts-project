@@ -1,5 +1,5 @@
-<div class="grid grid-cols-3 gap-4 p-2">
-<div class="col-span-2 p-4">
+<div class="gap-4 p-2">
+<div class="p-4">
   <div class="flex flex-row w-full justify-between content-center">
     <div class="text-bold text-lg">Posts</div>
 
@@ -99,9 +99,22 @@
 </div>
 
 
-</div>
-<div>
-  COMENTARIO
+<tui-drawer *tuiPopup="openDrawer()">
+  <header>
+    <div tuiTitle class="flex flex-row">
+    <h2>Comentários</h2>
+    <button
+                    appearance="icon"
+                    iconStart="@tui.x"
+                    tuiIconButton
+                    type="button"
+                    (click)="openDrawer.set(false)"
+                >
+                    Close
+                </button>
+    </div>
+  </header>
   <app-comments [post]="selectedPost"></app-comments>
-</div>
-</div>
+
+</tui-drawer>
+

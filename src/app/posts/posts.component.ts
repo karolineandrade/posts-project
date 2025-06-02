@@ -1,9 +1,8 @@
-import { map } from 'rxjs/operators';
 import { PostInterface } from './../shared/interface/PostInterface';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnChanges, OnInit, signal, SimpleChanges, ViewChild } from '@angular/core';
 import { PostsService } from '../shared/service/posts.service';
 import { CommonModule } from '@angular/common';
-import {tuiDialog, TuiIcon, TuiIconPipe} from '@taiga-ui/core';
+import {tuiDialog, TuiIcon, TuiPopup} from '@taiga-ui/core';
 import {TuiTable, TuiTablePaginationEvent} from '@taiga-ui/addon-table';
 import {TuiButton} from '@taiga-ui/core';
 import { TuiTablePagination, tuiTablePaginationOptionsProvider} from '@taiga-ui/addon-table';
@@ -11,12 +10,14 @@ import {TuiSkeleton} from '@taiga-ui/kit';
 import { AlertsService } from '../shared/service/alerts.service';
 import { DialogPostComponent } from './dialog-post/dialog-post.component';
 import { StorageService } from '../shared/service/storage.service';
-import { CommentsComponent } from './comments/comments.component';
+import { CommentsComponent } from '../comments/comments.component';
+import {TuiDrawer} from '@taiga-ui/kit';
+
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css'],
-  imports: [CommonModule, TuiTable, TuiButton, TuiIcon, TuiTablePagination, TuiSkeleton, CommentsComponent ],
+  imports: [CommonModule, TuiTable, TuiButton, TuiIcon, TuiTablePagination, TuiSkeleton, TuiDrawer, TuiPopup, CommentsComponent ],
   providers: [
         tuiTablePaginationOptionsProvider({
             showPages: true
@@ -29,6 +30,7 @@ export class PostsComponent implements OnInit, OnChanges {
   private alertService: AlertsService = inject(AlertsService);
   private storageService: StorageService = inject(StorageService);
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  readonly openDrawer = signal(false);
 
   public posts: PostInterface[] = [];
   public displayedColumns: string[] = ['number', 'title', 'body', 'actions'];
@@ -89,7 +91,6 @@ private listPostsStorage(): void {
   const storageList = this.storageService.getFromStorage('posts');
   this.posts = storageList ? JSON.parse(storageList) as PostInterface[] : [];
   this.resultsLength = this.posts.length;
-  console.log(this.posts)
   this.cdr.markForCheck();
 
 }
@@ -215,6 +216,8 @@ showDialogPost(isEdit: boolean, post?: PostInterface): void {
 }
 
 onSelectPost(post: PostInterface): void {
+  console.info(post)
   this.selectedPost = post;
+  this.openDrawer.set(!this.openDrawer());
 }
 }
