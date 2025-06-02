@@ -4,6 +4,7 @@
     [src]="getFirstChar(comment.name)"
     class="text-blue-600"
     size="l"
+    [tuiSkeleton]="!!isLoading()"
     [style.background]=" getFirstChar(comment.name) | tuiAutoColor"
 />
       </div>

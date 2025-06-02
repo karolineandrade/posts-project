@@ -16,16 +16,16 @@ constructor() { }
     return this.http.get<CommentInterface[]>(`${environment.url}/posts/${postId}/comments`);
   }
 
-    createComment(post: CommentInterface): Observable<CommentInterface> {
-    return this.http.post<CommentInterface>(`${environment.url}/comments/`, post);
+    createComment(comment: CommentInterface): Observable<CommentInterface> {
+    return this.http.post<CommentInterface>(`${environment.url}/comments/`, comment);
   }
 
-    patchComment(post: CommentInterface): Observable<CommentInterface> {
-    return this.http.patch<CommentInterface>(`${environment.url}/comments/${post.id}`, post);
+    patchComment(comment: CommentInterface): Observable<CommentInterface> {
+    return this.http.patch<CommentInterface>(`${environment.url}/comments/${comment.id}`, comment);
   }
 
-    putComment(post: CommentInterface): Observable<CommentInterface> {
-    return this.http.put<CommentInterface>(`${environment.url}/comments/${post.id}`, post);
+    putComment(comment: CommentInterface): Observable<CommentInterface> {
+    return this.http.put<CommentInterface>(`${environment.url}/comments/${comment.id}`, comment);
   }
 
    deleteComment(id: number): Observable<CommentInterface> {

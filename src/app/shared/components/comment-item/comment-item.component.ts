@@ -1,16 +1,17 @@
 import { Component, EventEmitter, input, OnInit, Output } from '@angular/core';
 import { TuiAutoColorPipe, TuiButton, TuiIcon } from '@taiga-ui/core';
-import { TuiAvatar } from '@taiga-ui/kit';
+import { TuiAvatar, TuiSkeleton } from '@taiga-ui/kit';
 import { CommentInterface } from '../../interface/CommentInterface';
 
 @Component({
   selector: 'app-comment-item',
   templateUrl: './comment-item.component.html',
   styleUrls: ['./comment-item.component.css'],
-  imports: [TuiAvatar, TuiAutoColorPipe, TuiIcon, TuiButton]
+  imports: [TuiAvatar, TuiAutoColorPipe, TuiIcon, TuiButton, TuiSkeleton]
 })
 export class CommentItemComponent {
   public comment = input<CommentInterface>();
+  public isLoading = input<boolean>();
   @Output() onEdit = new EventEmitter<CommentInterface>();
   @Output() onDelete = new EventEmitter<number >();
 

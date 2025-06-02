@@ -1,6 +1,6 @@
 <div class="w-full p-4">
   @for (comment of comments; track $index) {
-    <app-comment-item [comment]="comment" (onEdit)="showDialogComment(true, $event)" (onDelete)="deleteComment($event)"></app-comment-item>
+    <app-comment-item [comment]="comment" [isLoading]="isLoadingResults" (onEdit)="showDialogComment(true, $event)" (onDelete)="deleteComment($event)"></app-comment-item>
   } @empty {
     	    <tui-block-status
         class="card"
