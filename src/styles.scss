@@ -1,15 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
-
-@font-face {
-  font-family: 'Montserrat Alternates';
-  src: url('/public/fonts/MontserratAlternates-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import '@taiga-ui/core/styles/taiga-ui-local.scss';
 html, body { height: 100%; }
 body {
-    margin: 0;
-   font-family: "Montserrat Alternates", sans-serif;
-   font-size: 16px;
-  }
+  margin: 0;
+  font-family: "Montserrat Alternates", sans-serif !important;
+  font-size: 18px;
+}

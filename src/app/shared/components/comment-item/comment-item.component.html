@@ -1,19 +1,29 @@
 <div class="flex flex-row w-full p-4">
-      <div class="flex flex-col">
+      <div class="flex flex-col content-center">
 <tui-avatar
-    [src]="getFirstChar(comment.name)"
+    [src]="getFirstChar(comment()?.name!)"
     class="text-blue-600"
-    size="l"
+    size="xl"
     [tuiSkeleton]="!!isLoading()"
-    [style.background]=" getFirstChar(comment.name) | tuiAutoColor"
+    [style.background]=" getFirstChar(comment()?.name!) | tuiAutoColor"
 />
       </div>
 
+<div class="flex flex-col ms-4">
 
-<div class="flex flex-col ms-3">
-  <p class="font-bold text-base">{{comment()?.name}} <span class="font-normal italic">({{ comment()?.email }})</span></p>
-  <span class="text-sm">{{comment()?.body}}</span>
+   <span class="font-bold" [tuiSkeleton]="!!isLoading() ? 'This text serves as the content behind the skeleton and depending': '' ">
+    @if(!!!isLoading()) {
+      {{comment()?.name}} <span class="font-normal italic">({{ comment()?.email }})</span>
+  }
+    </span>
+      <span [tuiSkeleton]="!!isLoading() ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
+    @if(!!!isLoading()) {
+ {{comment()?.body}}
+  }
+    </span>
   <div class="flex flex-row">
+          <span [tuiSkeleton]="!!isLoading() ? 'This text serves as the content behind the skeleton': '' ">
+    @if(!!!isLoading()) {
   	<button
     appearance="flat"
     size="xs"
@@ -36,6 +46,9 @@
     <tui-icon icon="@tui.pencil" [style.height.rem]="1" />
     Excluir
 </button>
+  }
+    </span>
+
 </div>
 </div>
 
