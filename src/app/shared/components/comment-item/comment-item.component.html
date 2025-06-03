@@ -1,56 +1,53 @@
 <div class="flex flex-col w-full p-4">
-        <div class="flex flex-row items-center content-center">
-<tui-avatar
-    [src]="getFirstChar(comment()?.name!)"
-    class="text-blue-600"
-    size="m"
-    [tuiSkeleton]="!!isLoading()"
-    [style.background]=" getFirstChar(comment()?.name!) | tuiAutoColor"
-/>   <span class="font-bold ms-2" [tuiSkeleton]="!!isLoading() ? 'This text serves as the content behind the skeleton and depending': '' ">
+  <div class="flex flex-row items-center content-center">
+    <tui-avatar
+      [src]="getFirstChar(comment()?.name!)"
+      class="text-blue-600"
+      size="m"
+      [tuiSkeleton]="!!isLoading()"
+      [style.background]=" getFirstChar(comment()?.name!) | tuiAutoColor"
+    />   <span class="font-bold ms-2" [tuiSkeleton]="!!isLoading() ? 'This text serves as the content behind the skeleton and depending': '' ">
     @if(!!!isLoading()) {
       {{comment()?.name}} <span class="font-normal italic">({{ comment()?.email }})</span>
-  }
+    }
     </span>
-        </div>
+  </div>
 
-        	<section
-          class="m-2"
+  <section
+    class="m-2"
     tuiAppearance="neutral"
     tuiCardLarge
     [tuiSkeleton]="!!isLoading()"
->
+  >
     {{comment()?.body}}
-</section>
-
-
+  </section>
 
   <div class="flex flex-row justify-end">
           <span [tuiSkeleton]="!!isLoading() ? 'This text serves as the content behind the skeleton': '' ">
     @if(!!!isLoading()) {
-  	<button
-    appearance="flat-grayscale"
-    size="xs"
-    tuiButton
-    type="button"
-    (click)="editComment()"
->
+      <button
+        appearance="flat-grayscale"
+        size="xs"
+        tuiButton
+        type="button"
+        (click)="editComment()"
+      >
     <tui-icon icon="@tui.pencil" [style.height.rem]="1" />
-    Editar
-</button>
+      Editar
+      </button>
 
-  	<button
-    appearance="flat-grayscale"
-    size="xs"
-    tuiButton
-    type="button"
-    (click)="deleteComment(comment()?.id!)"
-
->
-    <tui-icon icon="@tui.trash" [style.height.rem]="1" />
-    Excluir
-</button>
-  }
+      <button
+        appearance="flat-grayscale"
+        size="xs"
+        tuiButton
+        type="button"
+        (click)="deleteComment(comment()?.id!)"
+      >
+        <tui-icon icon="@tui.trash" [style.height.rem]="1" />
+        Excluir
+      </button>
+    }
     </span>
 
-</div>
+  </div>
 </div>

@@ -14,10 +14,10 @@ import { PostInterface } from '../../interface/PostInterface';
   imports: [CommonModule, FormsModule, TuiTable, TuiTooltip, TuiHint, TuiAvatar, TuiAutoColorPipe, TuiButton, TuiPagination,
     TuiButtonSelect, TuiDataListWrapper, TuiIcon, TuiTablePagination, TuiSkeleton],
   providers: [
-            tuiTablePaginationOptionsProvider({
-                showPages: true
-            }),
-        ],
+    tuiTablePaginationOptionsProvider({
+      showPages: true
+    }),
+  ],
 })
 export class PostTableComponent implements OnInit {
   public posts = input<PostInterface[]>();
@@ -36,15 +36,14 @@ export class PostTableComponent implements OnInit {
   @Output() onDeletePost = new EventEmitter<number>();
 
 
-    protected readonly content: TuiStringHandler<TuiContext<number>> = ({$implicit}) =>
-          `Exibindo ${$implicit}`;
+  protected readonly content: TuiStringHandler<TuiContext<number>> = ({$implicit}) =>
+    `Exibindo ${$implicit}`;
+
   constructor() { }
+
   ngOnInit(): void {
     this.selectedPageSize = this.pageSize()!;
   }
-
-
-
   onPageChange(index: number) {
     this.pageChange.emit({ pageIndex: index, pageSize: this.pageSize()! });
   }

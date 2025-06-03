@@ -1,72 +1,72 @@
 
 <div
-class="flex flex-row my-2"
-tuiAppearance="neutral"
-tuiCardLarge
-[tuiSkeleton]="!!isLoading()">
+  class="flex flex-row my-2"
+  tuiAppearance="neutral"
+  tuiCardLarge
+  [tuiSkeleton]="!!isLoading()">
 
-<div class="flex flex-col">
+  <div class="flex flex-col">
     <tui-avatar
-    src="@tui.user"
-    class="text-blue-600"
-    size="m"
-    [style.background]=" 'AI' | tuiAutoColor"
-/>
-</div>
+      src="@tui.user"
+      class="text-blue-600"
+      size="m"
+      [style.background]=" 'AI' | tuiAutoColor"
+    />
+  </div>
 
-<div class="flex flex-col">
+  <div class="flex flex-col">
   <span class="font-bold">
       {{(post()?.title | slice:0:20) }}{{ post()?.title!.length > 20 ? '...' : ''}}
   </span>
-  <span class="text-sm">
+    <span class="text-sm">
     User {{post()?.userId}}
   </span>
-  <span class="text-base">
+    <span class="text-base">
     {{(post()?.body | slice:0:50) }}{{ post()?.body!.length > 50 ? '...' : ''}}
   </span>
-</div>
+  </div>
 
-<div class="">
-<button
-    appearance="flat-grayscale"
-    iconStart="@tui.chevron-down"
-    size="xs"
-    tuiIconButton
-    type="button"
-    [tuiDropdown]="dropdown"
-    [style.border-radius.%]="100"
->
-    List
-</button>
+  <div class="">
+    <button
+      appearance="flat-grayscale"
+      iconStart="@tui.chevron-down"
+      size="xs"
+      tuiIconButton
+      type="button"
+      [tuiDropdown]="dropdown"
+      [style.border-radius.%]="100"
+    >
+      List
+    </button>
 
-<ng-template
-    #dropdown
-    let-close
->
-    <tui-data-list role="menu">
+    <ng-template
+      #dropdown
+      let-close
+    >
+      <tui-data-list role="menu">
         <tui-opt-group>
-            @for (item of ['Visualizar', 'Editar', 'Deletar']; track $index) {
+          @for (item of ['Visualizar', 'Editar', 'Deletar']; track $index) {
             <button
-                tuiOption
-                type="button"
+              tuiOption
+              type="button"
             >
-                {{ item }}
+              {{ item }}
             </button>
-            }
+          }
         </tui-opt-group>
         <tui-opt-group>
-            <button
-                tuiOption
-                type="button"
-                (click)="close()"
-            >
-                Nevermind
-            </button>
+          <button
+            tuiOption
+            type="button"
+            (click)="close()"
+          >
+            Nevermind
+          </button>
         </tui-opt-group>
-    </tui-data-list>
-</ng-template>
+      </tui-data-list>
+    </ng-template>
 
-</div>
+  </div>
 
 
 

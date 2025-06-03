@@ -22,7 +22,7 @@ export class CommentItemComponent {
     this.onEdit.emit(this.comment());
   }
 
-   deleteComment(index: number): void {
+  deleteComment(index: number): void {
     this.onDelete.emit(index);
   }
 

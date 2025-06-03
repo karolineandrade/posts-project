@@ -1,94 +1,94 @@
 
 <table
-    tuiTable
-    class="table table-auto w-full"
-    [columns]="displayedColumns"
-  >
-        <caption tuiCaption>
-          <span class="text-base">{{ resultsLength() }} itens</span>
-          <button
-              appearance="flat-grayscale"
-              tuiButton
-              tuiButtonSelect
-              type="button"
-              size="m"
-              [(ngModel)]="selectedPageSize"
-          >
-              {{ pageIndex()! * pageSize()! + 1 }}-{{ (pageIndex()! + 1) * pageSize()! }} itens
-              <tui-data-list-wrapper
-                  *tuiTextfieldDropdown
-                  [itemContent]="content"
-                  [items]="pageSizeOptions()!"
-              />
-          </button>
-          <tui-pagination
-            size="l"
-            [length]="resultsLength()!"
-            [index]="pageIndex()!"
-            (indexChange)="onPageChange($event)"
-            [style.float]="'right'"
-          />
-      </caption>
-    <thead>
-        <tr tuiThGroup>
-            <th tuiTh> N. </th>
-            <th tuiTh>Título</th>
-            <th tuiTh>Usuário</th>
-            <th tuiTh>Mensagem</th>
-            <th tuiTh></th>
-        </tr>
-    </thead>
-    <tbody
-        tuiTbody
-        class="rounded-2xl"
-        [data]="posts()!"
+  tuiTable
+  class="table table-auto w-full"
+  [columns]="displayedColumns"
+>
+  <caption tuiCaption>
+    <span class="text-base">{{ resultsLength() }} itens</span>
+    <button
+      appearance="flat-grayscale"
+      tuiButton
+      tuiButtonSelect
+      type="button"
+      size="m"
+      [(ngModel)]="selectedPageSize"
     >
+      {{ pageIndex()! * pageSize()! + 1 }}-{{ (pageIndex()! + 1) * pageSize()! }} itens
+      <tui-data-list-wrapper
+        *tuiTextfieldDropdown
+        [itemContent]="content"
+        [items]="pageSizeOptions()!"
+      />
+    </button>
+    <tui-pagination
+      size="l"
+      [length]="resultsLength()!"
+      [index]="pageIndex()!"
+      (indexChange)="onPageChange($event)"
+      [style.float]="'right'"
+    />
+  </caption>
+  <thead>
+  <tr tuiThGroup>
+    <th tuiTh> N. </th>
+    <th tuiTh>Título</th>
+    <th tuiTh>Usuário</th>
+    <th tuiTh>Mensagem</th>
+    <th tuiTh></th>
+  </tr>
+  </thead>
+  <tbody
+    tuiTbody
+    class="rounded-2xl"
+    [data]="posts()!"
+  >
     @for(post of paginatedPosts(); track $index) {
       <tr tuiTr class="rounded-xl">
-            <td *tuiCell="'number'" tuiTd>
+        <td *tuiCell="'number'" tuiTd>
               <span class="text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text': '' ">
                 {{ !!isLoadingResults() ? '' : $index + 1 }}
               </span>
-            </td>
-            <td *tuiCell="'title'" tuiTd>
+        </td>
+        <td *tuiCell="'title'" tuiTd>
               <span class="text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
               {{ !!isLoadingResults() ? '' : post.title}}
             </span>
-          </td>
+        </td>
         <td *tuiCell="'user'" tuiTd>
           <span class="text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
               <tui-avatar
-              class="me-3"
-      src="@tui.user"
-      [style.background]="'AI' | tuiAutoColor"
-  /> User {{ !!isLoadingResults() ? '' :  post.userId}}
+                class="me-3"
+                src="@tui.user"
+                [style.background]="'AI' | tuiAutoColor"
+              /> User {{ !!isLoadingResults() ? '' :  post.userId}}
           </span>
-          </td>
-                <td *tuiCell="'body'" tuiTd>
+        </td>
+        <td *tuiCell="'body'" tuiTd>
           <span class="text-overflow text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
             {{ !!isLoadingResults() ? '' : (post.body | slice:0:50) }}{{ post?.body!.length > 50 ? '...' : ''}}
           </span>
-          </td>
-            <td *tuiCell="'actions'" tuiTd>
-              <div class="flex flex-row">
+        </td>
+        <td *tuiCell="'actions'" tuiTd>
+          <div class="flex flex-row">
               <span
-        [tuiSkeleton]="!!isLoadingResults() ? 'This text serves': '' ">
+                [tuiSkeleton]="!!isLoadingResults() ? 'This text serves': '' ">
         @if(!!!isLoadingResults()) {
           <button
-          class="me-4"
-          appearance="secondary-grayscale"
-          iconStart="@tui.eye"
-          size="m"
-          tuiIconButton
-          type="button"
-          tuiHint="Visualizar"
-          tuiHintDescribe
-          (click)="view(post)"
-        >
+            class="me-4"
+            appearance="secondary-grayscale"
+            iconStart="@tui.eye"
+            size="m"
+            tuiIconButton
+            type="button"
+            tuiHint="Visualizar"
+            tuiHintDescribe
+            (click)="view(post)"
+          >
           Visualizar
         </button>
           <button
-          class="me-4"
+            class="me-4"
             appearance="secondary-grayscale"
             iconStart="@tui.pencil"
             size="m"
@@ -113,10 +113,9 @@
           </button>
         }</span>
 
-              </div>
-            </td>
-        </tr>
+          </div>
+        </td>
+      </tr>
     }
-
-    </tbody>
-  </table>
+  </tbody>
+</table>
