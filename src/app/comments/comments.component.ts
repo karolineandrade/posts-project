@@ -8,12 +8,15 @@ import {tuiDialog, TuiIcon, TuiButton} from '@taiga-ui/core';
 import { DialogCommentComponent } from './dialog-comment/dialog-comment.component';
 import { CommentItemComponent } from '../shared/components/comment-item/comment-item.component';
 import {TuiBlockStatus} from '@taiga-ui/layout';
+import {TuiLoader, tuiLoaderOptionsProvider} from '@taiga-ui/core';
 
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.css'],
-  imports: [TuiIcon, TuiBlockStatus, TuiButton, CommentItemComponent]
+  imports: [TuiIcon, TuiBlockStatus, TuiButton, TuiLoader, CommentItemComponent],
+  providers: [tuiLoaderOptionsProvider({size: 'xl'})],
+
 })
 export class CommentsComponent implements OnInit, OnChanges {
   private commentsService: CommentsService = inject(CommentsService);
@@ -22,6 +25,7 @@ export class CommentsComponent implements OnInit, OnChanges {
  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   public post = input<PostInterface>();
+  public addComment = input<boolean>();
 
   public comments: CommentInterface[] = [];
   public isLoadingResults = true;
@@ -36,20 +40,27 @@ export class CommentsComponent implements OnInit, OnChanges {
 
 
   constructor() { }
+
   ngOnInit(): void {
     this.postId = this.post()?.id!;
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['post']) {
           this.postId = this.post()?.id!;
 
       this.listComments()
     }
+
+    if (changes['addComment'] && changes['addComment'].currentValue === true) {
+    this.showDialogComment(false);
+  }
   }
 
 listComments(): void {
   this.commentsService.getCommentsInPost(this.postId!).subscribe({
     next: (response) => {
+      this.isLoadingResults = false;
       const storageList = this.storageService.getFromStorage('comments_post_' + this.postId);
       if (!storageList) {
         this.storageService.saveToStorage('comments_post_' + this.postId, JSON.stringify(response));

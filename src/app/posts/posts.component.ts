@@ -15,7 +15,7 @@ import {TuiDrawer} from '@taiga-ui/kit';
 import {TuiButtonSelect, TuiDataListWrapper, TuiPagination} from '@taiga-ui/kit';
 import { TuiContext, TuiStringHandler } from '@taiga-ui/cdk/types';
 import { FormsModule } from '@angular/forms';
-import {TuiCell} from '@taiga-ui/layout';
+import {TuiCell, TuiHeader} from '@taiga-ui/layout';
 import {TuiAvatar} from '@taiga-ui/kit';
 import {TuiAutoColorPipe, TuiHint} from '@taiga-ui/core';
 import { PostItemComponent } from "../shared/components/post-item/post-item.component";
@@ -26,7 +26,7 @@ import {TuiTooltip} from '@taiga-ui/kit';
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css'],
   imports: [CommonModule, FormsModule, TuiTable, TuiTooltip, TuiDropdown,
-    TuiHint, TuiAvatar, TuiAutoColorPipe, TuiButton, TuiPagination, TuiButtonSelect,
+    TuiHint, TuiAvatar, TuiAutoColorPipe, TuiButton, TuiPagination, TuiButtonSelect, TuiHeader,
     TuiDataListWrapper, TuiIcon, TuiTablePagination, TuiSkeleton, TuiDrawer, TuiPopup,
     CommentsComponent, PostItemComponent],
   providers: [
@@ -52,7 +52,7 @@ export class PostsComponent implements OnInit, OnChanges {
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public isEdit = false;
-  public open = false;
+  public addComment = false;
   public label = 'Adicionar';
   public selectedPost!: PostInterface;
 
@@ -231,12 +231,16 @@ showDialogPost(isEdit: boolean, post?: PostInterface): void {
 }
 
 onSelectPost(post: PostInterface): void {
-  console.info(post)
   this.selectedPost = post;
   this.openDrawer.set(!this.openDrawer());
 }
 
-protected onClick(): void {
-        this.open = !this.open;
-    }
+onAddComment(): void {
+  console.info('rrrr')
+  this.addComment = true;
+  setTimeout(() => {
+    this.addComment = false;
+  });
+}
+
 }

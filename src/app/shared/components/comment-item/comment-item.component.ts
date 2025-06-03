@@ -1,13 +1,14 @@
 import { Component, EventEmitter, input, OnInit, Output } from '@angular/core';
-import { TuiAutoColorPipe, TuiButton, TuiIcon } from '@taiga-ui/core';
+import { TuiAppearance, TuiAutoColorPipe, TuiButton, TuiIcon } from '@taiga-ui/core';
 import { TuiAvatar, TuiSkeleton } from '@taiga-ui/kit';
 import { CommentInterface } from '../../interface/CommentInterface';
+import { TuiCardLarge } from '@taiga-ui/layout';
 
 @Component({
   selector: 'app-comment-item',
   templateUrl: './comment-item.component.html',
   styleUrls: ['./comment-item.component.css'],
-  imports: [TuiAvatar, TuiAutoColorPipe, TuiIcon, TuiButton, TuiSkeleton]
+  imports: [TuiAvatar, TuiAutoColorPipe, TuiIcon, TuiButton, TuiSkeleton, TuiCardLarge, TuiAppearance]
 })
 export class CommentItemComponent {
   public comment = input<CommentInterface>();

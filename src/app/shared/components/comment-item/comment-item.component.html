@@ -1,31 +1,34 @@
-<div class="flex flex-row w-full p-4">
-      <div class="flex flex-col content-center">
+<div class="flex flex-col w-full p-4">
+        <div class="flex flex-row items-center content-center">
 <tui-avatar
     [src]="getFirstChar(comment()?.name!)"
     class="text-blue-600"
-    size="xl"
+    size="m"
     [tuiSkeleton]="!!isLoading()"
     [style.background]=" getFirstChar(comment()?.name!) | tuiAutoColor"
-/>
-      </div>
-
-<div class="flex flex-col ms-4">
-
-   <span class="font-bold" [tuiSkeleton]="!!isLoading() ? 'This text serves as the content behind the skeleton and depending': '' ">
+/>   <span class="font-bold ms-2" [tuiSkeleton]="!!isLoading() ? 'This text serves as the content behind the skeleton and depending': '' ">
     @if(!!!isLoading()) {
       {{comment()?.name}} <span class="font-normal italic">({{ comment()?.email }})</span>
   }
     </span>
-      <span [tuiSkeleton]="!!isLoading() ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
-    @if(!!!isLoading()) {
- {{comment()?.body}}
-  }
-    </span>
-  <div class="flex flex-row">
+        </div>
+
+        	<section
+          class="m-2"
+    tuiAppearance="neutral"
+    tuiCardLarge
+    [tuiSkeleton]="!!isLoading()"
+>
+    {{comment()?.body}}
+</section>
+
+
+
+  <div class="flex flex-row justify-end">
           <span [tuiSkeleton]="!!isLoading() ? 'This text serves as the content behind the skeleton': '' ">
     @if(!!!isLoading()) {
   	<button
-    appearance="flat"
+    appearance="flat-grayscale"
     size="xs"
     tuiButton
     type="button"
@@ -36,21 +39,18 @@
 </button>
 
   	<button
-    appearance="flat-destructive"
+    appearance="flat-grayscale"
     size="xs"
     tuiButton
     type="button"
     (click)="deleteComment(comment()?.id!)"
 
 >
-    <tui-icon icon="@tui.pencil" [style.height.rem]="1" />
+    <tui-icon icon="@tui.trash" [style.height.rem]="1" />
     Excluir
 </button>
   }
     </span>
 
 </div>
-</div>
-
-
 </div>

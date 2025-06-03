@@ -38,7 +38,7 @@
         </button>
         <tui-pagination
         size="l"
-        
+
             [length]="resultsLength"
             [style.float]="'right'"
             [(index)]="pageIndex"
@@ -141,23 +141,44 @@ class="me-4"
 
 <tui-drawer *tuiPopup="openDrawer()">
 <header>
-  <div tuiTitle class="flex flex-row w-full justify-between">
-      <div>
-  <h2>Comentários</h2>
+        <h2 tuiHeader>
+<div tuiTitle class="flex flex-col">
+                <span tuiCaption> Post {{selectedPost.id}}</span>
+                <span>
+                    {{selectedPost.title}}
+                </span>
+                <span tuiSubtitle>
+                    {{selectedPost.body}}
+                </span>
+            </div>
 
-      </div>
-  <button
-                  appearance="icon"
-                  iconStart="@tui.x"
-                  tuiIconButton
-                  type="button"
-                  (click)="openDrawer.set(false)"
-              >
-                  Close
-              </button>
-  </div>
-</header>
-<app-comments [post]="selectedPost"></app-comments>
+            <div tuiAccessories>
+                <button
+                    appearance="icon"
+                    iconStart="@tui.x"
+                    tuiIconButton
+                    type="button"
+                    (click)="openDrawer.set(false)"
+                >
+                    Close
+                </button>
+            </div>
+        </h2>
+    </header>
+    <footer>
+        <button
+        appearance="grayscale"
+            size="m"
+            tuiButton
+            type="button"
+            [style.margin-inline-end]="'auto'"
+            (click)="onAddComment()"
+        >
+        <tui-icon icon="@tui.plus" [style.height.rem]="1" />
+            Adicionar Comentario
+        </button>
+    </footer>
+<app-comments [post]="selectedPost" [addComment]="addComment"></app-comments>
 
 </tui-drawer>
 
