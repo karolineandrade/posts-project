@@ -1,43 +1,55 @@
-<div class="flex flex-row w-full p-4">
-      <div class="flex flex-col">
-<tui-avatar
-    [src]="getFirstChar(comment.name)"
-    class="text-blue-600"
-    size="l"
+<div class="flex flex-col w-full p-4">
+  <div class="flex flex-row items-center content-center">
+    <tui-avatar
+      [src]="getFirstChar(comment()?.name!)"
+      class="text-blue-600"
+      size="m"
+      [tuiSkeleton]="!!isLoading()"
+      [style.background]=" getFirstChar(comment()?.name!) | tuiAutoColor"
+    />   <span class="font-bold text-base sm:text-lg md:text-xl lg:text-sm xl:text-xs ms-2" [tuiSkeleton]="!!isLoading() ? 'This text serves as the content behind the skeleton and depending': '' ">
+    @if(!!!isLoading()) {
+      {{comment()?.name}} <span class="font-normal italic">({{ comment()?.email }})</span>
+    }
+    </span>
+  </div>
+
+  <section
+    class="m-2"
+    tuiAppearance="neutral"
+    tuiCardLarge
     [tuiSkeleton]="!!isLoading()"
-    [style.background]=" getFirstChar(comment.name) | tuiAutoColor"
-/>
-      </div>
+  >
+  <span class="text-base sm:text-lg md:text-xl lg:text-sm xl:text-xs">
+    {{comment()?.body}}
+  </span>
+  </section>
 
-
-<div class="flex flex-col ms-3">
-  <p class="font-bold text-base">{{comment()?.name}} <span class="font-normal italic">({{ comment()?.email }})</span></p>
-  <span class="text-sm">{{comment()?.body}}</span>
-  <div class="flex flex-row">
-  	<button
-    appearance="flat"
-    size="xs"
-    tuiButton
-    type="button"
-    (click)="editComment()"
->
+  <div class="flex flex-row justify-end">
+          <span [tuiSkeleton]="!!isLoading() ? 'This text serves as the content behind the skeleton': '' ">
+    @if(!!!isLoading()) {
+      <button
+        appearance="flat-grayscale"
+        size="xs"
+        tuiButton
+        type="button"
+        (click)="editComment()"
+      >
     <tui-icon icon="@tui.pencil" [style.height.rem]="1" />
-    Editar
-</button>
+      Editar
+      </button>
 
-  	<button
-    appearance="flat-destructive"
-    size="xs"
-    tuiButton
-    type="button"
-    (click)="deleteComment(comment()?.id!)"
+      <button
+        appearance="flat-grayscale"
+        size="xs"
+        tuiButton
+        type="button"
+        (click)="deleteComment(comment()?.id!)"
+      >
+        <tui-icon icon="@tui.trash" [style.height.rem]="1" />
+        Excluir
+      </button>
+    }
+    </span>
 
->
-    <tui-icon icon="@tui.pencil" [style.height.rem]="1" />
-    Excluir
-</button>
-</div>
-</div>
-
-
+  </div>
 </div>

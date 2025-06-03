@@ -1,4 +1,3 @@
-	@import '@taiga-ui/core/styles/taiga-ui-local.less';
 .table {
     inline-size: 100% !important;
 }
@@ -11,10 +10,8 @@
   text-overflow: ellipsis;
 }
 
- [tuiTh],
+[tuiTh],
 [tuiTd] {
-  font-size: 18px;
   border-inline-start: none;
   border-inline-end: none;
 }
-

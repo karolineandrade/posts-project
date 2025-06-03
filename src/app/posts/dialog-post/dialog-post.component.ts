@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, NgControl, ReactiveFormsModule, Validators } from '@angular/forms';
-	import {TuiButton, TuiDialogContext, TuiDialogService, TuiTextfield} from '@taiga-ui/core';
+import {TuiButton, TuiDialogContext, TuiDialogService, TuiTextfield} from '@taiga-ui/core';
 import {TuiTextarea, TuiTextareaLimit} from '@taiga-ui/kit';
 import { PostInterface } from '../../shared/interface/PostInterface';
 import {injectContext} from '@taiga-ui/polymorpheus';
@@ -31,7 +31,7 @@ export class DialogPostComponent implements OnInit {
   }
 
   initForm(): void {
-   this.formPost = this.formBuild.group({
+    this.formPost = this.formBuild.group({
       title: ['', Validators.required],
       body: ['', Validators.required]
     })
@@ -42,18 +42,18 @@ export class DialogPostComponent implements OnInit {
   }
 
   get post(): PostInterface | undefined {
-        return this.context.data;
-    }
+    return this.context.data;
+  }
 
   protected showDialog(content: TemplateRef<TuiDialogContext>): void {
-        this.dialogs.open(content, {dismissible: true}).subscribe();
-    }
+    this.dialogs.open(content, {dismissible: true}).subscribe();
+  }
 
-    onSaveForm(): void {
-      if(this.formPost.valid){
-        this.context.completeWith(this.formPost.value)
-      }
+  onSaveForm(): void {
+    if(this.formPost.valid){
+      this.context.completeWith(this.formPost.value)
     }
+  }
 
 }
 

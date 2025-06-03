@@ -1,33 +1,19 @@
 <div class="w-full p-4">
-  @for (comment of comments; track $index) {
-    <app-comment-item [comment]="comment" [isLoading]="isLoadingResults" (onEdit)="showDialogComment(true, $event)" (onDelete)="deleteComment($event)"></app-comment-item>
-  } @empty {
-    	    <tui-block-status
+  @if(isLoadingResults) {
+    <tui-loader />
+  } @else {
+    @for (comment of comments; track $index) {
+      <app-comment-item [comment]="comment" [isLoading]="isLoadingResults" (onEdit)="showDialogComment(true, $event)" (onDelete)="deleteComment($event)"></app-comment-item>
+      @if($index < comments.length - 1) {
+        <hr class="bg-gray-200" />
+      }
+    } @empty {
+      <tui-block-status
         class="card"
         [card]="true"
-    >
-
+      >
         <p>Não foi encontrado comentário para esse post</p>
-
-        <button
-            appearance="secondary"
-            tuiButton
-            type="button"
-            size="m"
-        >
-            Return
-        </button>
-    </tui-block-status>
+      </tui-block-status>
+    }
   }
-
-  	<button
-    appearance="secondary"
-    size="m"
-    tuiButton
-    type="button"
-    (click)="showDialogComment(false)"
->
-    <tui-icon icon="@tui.plus" [style.height.rem]="1" />
-    Adicionar
-</button>
 </div>

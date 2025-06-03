@@ -1,0 +1,64 @@
+<tui-swipe-actions class="flex flex-row w-full my-2">
+    <div
+        tuiAppearance="floating"
+        tuiCardLarge
+        tuiCell
+    >
+    <div class="flex flex-col">
+    <tui-avatar
+      src="@tui.user"
+      class="text-blue-600"
+      size="m"
+      [style.background]=" 'AI' | tuiAutoColor"
+    />
+    </div>
+       <div class="flex flex-col ms-2  w-full">
+ <div tuiTitle class="font-bold text-base sm:text-lg md:text-xl lg:text-sm xl:text-xs">
+            {{(post()?.title | slice:0:20) }}{{ post()?.title!.length > 20 ? '...' : ''}}
+            <div class="font-light" tuiSubtitle>User {{post()?.userId}}</div>
+        </div>
+    </div>
+       <div class="flex flex-col">
+    <button
+        appearance="flat-grayscale"
+        iconStart="@tui.ellipsis-vertical"
+        size="s"
+        tuiDropdownOpen
+        tuiIconButton
+        type="button"
+        class="fallback"
+        [tuiDropdown]="content"
+    >
+        Actions
+    </button>
+    </div>
+    </div>
+
+
+
+    <ng-template #content>
+        <tui-data-list>
+            <button
+                tuiOption
+                type="button"
+                (click)="view()"
+            >
+                Visualizar
+            </button>
+            <button
+                tuiOption
+                type="button"
+                (click)="edit()"
+            >
+                Editar
+            </button>
+            <button
+                tuiOption
+                type="button"
+                (click)="delete()"
+            >
+                Deletar
+            </button>
+        </tui-data-list>
+    </ng-template>
+</tui-swipe-actions>

@@ -1,0 +1,122 @@
+
+<table
+  tuiTable
+  class="table table-auto w-full"
+  [columns]="displayedColumns"
+>
+  <caption tuiCaption>
+    <span class="text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base">{{ resultsLength() }} itens</span>
+    <button
+      appearance="flat-grayscale"
+      tuiButton
+      tuiButtonSelect
+      type="button"
+      size="m"
+      [(ngModel)]="selectedPageSize"
+    >
+      {{ pageIndex()! * pageSize()! + 1 }}-{{ (pageIndex()! + 1) * pageSize()! }} itens
+      <tui-data-list-wrapper
+        *tuiTextfieldDropdown
+        [itemContent]="content"
+        [items]="pageSizeOptions()!"
+      />
+    </button>
+    <tui-pagination
+      size="l"
+      [length]="resultsLength()!"
+      [index]="pageIndex()!"
+      (indexChange)="onPageChange($event)"
+      [style.float]="'right'"
+    />
+  </caption>
+  <thead>
+  <tr tuiThGroup>
+    <th tuiTh> N. </th>
+    <th tuiTh>Título</th>
+    <th tuiTh>Usuário</th>
+    <th tuiTh>Mensagem</th>
+    <th tuiTh></th>
+  </tr>
+  </thead>
+  <tbody
+    tuiTbody
+    class="rounded-2xl"
+    [data]="posts()!"
+  >
+    @for(post of paginatedPosts(); track $index) {
+      <tr tuiTr class="rounded-xl">
+        <td *tuiCell="'number'" tuiTd>
+              <span class="text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text': '' ">
+                {{ !!isLoadingResults() ? '' : post.id }}
+              </span>
+        </td>
+        <td *tuiCell="'title'" tuiTd>
+              <span class="text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
+              {{ !!isLoadingResults() ? '' : post.title}}
+            </span>
+        </td>
+        <td *tuiCell="'user'" tuiTd>
+          <span class="text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
+              <tui-avatar
+                class="me-3"
+                src="@tui.user"
+                [style.background]="'AI' | tuiAutoColor"
+              /> User {{ !!isLoadingResults() ? '' :  post.userId}}
+          </span>
+        </td>
+        <td *tuiCell="'body'" tuiTd>
+          <span class="text-overflow text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
+            {{ !!isLoadingResults() ? '' : (post.body | slice:0:50) }}{{ post?.body!.length > 50 ? '...' : ''}}
+          </span>
+        </td>
+        <td *tuiCell="'actions'" tuiTd>
+          <div class="flex flex-row">
+              <span
+                [tuiSkeleton]="!!isLoadingResults() ? 'This text serves': '' ">
+        @if(!!!isLoadingResults()) {
+          <button
+            class="m-1"
+            appearance="secondary-grayscale"
+            iconStart="@tui.eye"
+            size="s"
+            tuiIconButton
+            type="button"
+            tuiHint="Visualizar"
+            tuiHintDescribe
+            (click)="view(post)"
+          >
+          Visualizar
+        </button>
+          <button
+            class="m-1"
+            appearance="secondary-grayscale"
+            iconStart="@tui.pencil"
+            size="s"
+            tuiIconButton
+            type="button"
+            tuiHint="Editar"
+            tuiHintDescribe
+            (click)="edit(post)"
+          >
+            Editar
+          </button>
+          <button
+            class="m-1"
+            appearance="secondary-grayscale"
+            iconStart="@tui.trash"
+            size="s"
+            tuiIconButton
+            type="button"
+            tuiHint="Deletar"
+            tuiHintDescribe
+            (click)="delete(post.id!)"
+          > Deletar
+          </button>
+        }</span>
+
+          </div>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>

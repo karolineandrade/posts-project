@@ -1,123 +1,106 @@
-<div class="gap-4 p-2">
-<div class="p-4">
-  <div class="flex flex-row w-full justify-between content-center">
-    <div class="text-bold text-lg">Posts</div>
+<div class="gap-4 p-2 item">
+  <div class="p-4">
+    <div class="flex flex-row w-full justify-between content-center my-4">
+      <div class="text-bold text-lg">Posts</div>
 
-	<button
-    appearance="secondary"
-    size="m"
-    tuiButton
-    type="button"
-    (click)="showDialogPost(false)"
->
-    <tui-icon icon="@tui.plus" [style.height.rem]="1" />
-    Novo Post
-</button>
-  </div>
-  <table
-    tuiTable
-    class="table"
-    [columns]="displayedColumns"
->
-    <thead>
-        <tr tuiThGroup>
-            <th tuiTh [resizable]="true"> N. </th>
-            <th tuiTh>Título</th>
-            <th tuiTh>Mensagem</th>
-            <th tuiTh></th>
-        </tr>
-    </thead>
-    <tbody
-        tuiTbody
-        [data]="posts"
-    >
-    @for(post of paginatedData(); track $index) {
-      <tr tuiTr (click)="onSelectPost(post)" class="cursor-pointer">
-            <td *tuiCell="'number'" tuiTd>
-              <span
-        [tuiSkeleton]="
-            isLoadingResults ? 'This text': '' ">
-        {{ isLoadingResults ? '' : $index + 1 }}
-    </span>
-  </td>
-            <td *tuiCell="'title'" tuiTd>
-              <span
-        [tuiSkeleton]="
-            isLoadingResults ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
-        {{ isLoadingResults ? '' : post.title}}
-    </span>  </td>
-            <td *tuiCell="'body'" tuiTd>
-<span
-        [tuiSkeleton]="
-            isLoadingResults ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
-        {{ isLoadingResults ? '' :  post.body}}
-    </span> </td>
-            <td *tuiCell="'actions'" tuiTd>
-              <div class="flex flex-row">
-              <span
-        [tuiSkeleton]="isLoadingResults ? 'This text serves': '' ">
-        @if(!isLoadingResults) {
-<button
-    appearance="flat"
-    iconStart="@tui.pencil"
-    size="m"
-    tuiIconButton
-    type="button"
-    [style.border-radius.%]="100"
-    (click)="showDialogPost(true, post)"
->
-    Editar
-</button>
-	<button
-    appearance="flat-destructive"
-    iconStart="@tui.trash"
-    size="m"
-    tuiIconButton
-    type="button"
-    [style.border-radius.%]="100"
-    (click)="deletePost(post.id!)"
-> Deletar
-</button>
-        }</span>
-
-              </div>
-            </td>
-        </tr>
-    }
-
-    </tbody>
-</table>
-<div>
-<tui-table-pagination
-    [items]="pageSizeOptions"
-    [size]="pageSize"
-    [total]="resultsLength"
-    [page]="pageIndex"
-    (paginationChange)="onPageChange($event)"
-/>
-
-</div>
-
-
-<tui-drawer *tuiPopup="openDrawer()">
-  <header>
-    <div tuiTitle class="flex flex-row w-full justify-between">
-        <div>
-    <h2>Comentários</h2>
-
-        </div>
-    <button
-                    appearance="icon"
-                    iconStart="@tui.x"
-                    tuiIconButton
-                    type="button"
-                    (click)="openDrawer.set(false)"
-                >
-                    Close
-                </button>
+      <button
+        appearance="secondary"
+        size="s"
+        tuiButton
+        type="button"
+        (click)="showDialogPost(false)"
+      >
+        <tui-icon icon="@tui.plus" [style.height.rem]="1" />
+        Novo Post
+      </button>
     </div>
-  </header>
-  <app-comments [post]="selectedPost"></app-comments>
 
-</tui-drawer>
+    <div class="flex w-full" *ngIf="breakpoint$ | async as breakpoint">
+      @if(breakpoint === 'desktopSmall' || breakpoint === 'desktopLarge' ) {
+    <app-post-table
+      class="w-full"
+      [posts]="posts"
+      [paginatedPosts]="paginatedData()"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      [resultsLength]="resultsLength"
+      [isLoadingResults]="isLoadingResults"
+      (pageChange)="onPageChange($event)"
+      (onViewPost)="onSelectPost($event)"
+      (onEditPost)="showDialogPost(true, $event)"
+      (onDeletePost)="deletePost($event)"
+    ></app-post-table>
+    } @else if (breakpoint === 'mobile') {
+    <div class=" flex flex-col w-full">
+     @for(post of paginatedData(); track $index) {
+      <app-post-item
+        class="w-full"
+        [post]="post"
+        (onViewPost)="onSelectPost($event)"
+        (onEditPost)="showDialogPost(true, $event)"
+        (onDeletePost)="deletePost($event)"
+        >
+    </app-post-item>
+      }
+    <tui-pagination
+        size="m"
+        [index]="pageIndex"
+        [length]="resultsLength"
+        (indexChange)="goToPage($event)"
+    />
+    </div>
+    }
+  </div>
+  <div>
+
+  </div>
+
+  <div>
+  </div>
+
+
+
+  <tui-drawer *tuiPopup="openDrawer()">
+    <header>
+      <h2 tuiHeader>
+        <div tuiTitle class="flex flex-col">
+          <span tuiCaption> Post {{selectedPost.id}}</span>
+          <span>
+                    {{selectedPost.title}}
+                </span>
+          <span tuiSubtitle>
+                    {{selectedPost.body}}
+                </span>
+        </div>
+
+        <div tuiAccessories>
+          <button
+            appearance="icon"
+            iconStart="@tui.x"
+            tuiIconButton
+            type="button"
+            (click)="openDrawer.set(false)"
+          >
+            Close
+          </button>
+        </div>
+      </h2>
+    </header>
+    <footer>
+      <button
+        appearance="grayscale"
+        size="s"
+        tuiButton
+        type="button"
+        [style.margin-inline-end]="'auto'"
+        (click)="onAddComment()"
+      >
+        <tui-icon icon="@tui.plus" [style.height.rem]="1" />
+        Adicionar Comentario
+      </button>
+    </footer>
+    <app-comments [post]="selectedPost" [addComment]="addComment"></app-comments>
+
+  </tui-drawer>
 

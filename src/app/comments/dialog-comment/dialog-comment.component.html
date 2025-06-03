@@ -1,53 +1,53 @@
 <div class="flex flex-column gap-4">
-<form  [formGroup]="formComment" class="w-full">
-  <label tuiLabel class="w-full mt-4">
-    Nome
-    	<tui-textfield>
-    <input
-        placeholder="Insira o nome"
-        tuiTextfield
-        formControlName="name"
-    />
-</tui-textfield>
-</label>
+  <form  [formGroup]="formComment" class="w-full">
+    <label tuiLabel class="w-full mt-4">
+      Nome
+      <tui-textfield>
+        <input
+          placeholder="Insira o nome"
+          tuiTextfield
+          formControlName="name"
+        />
+      </tui-textfield>
+    </label>
 
-  <label tuiLabel class="w-full mt-4">
-    E-mail
-    	<tui-textfield>
-    <input
-        placeholder="Insira o e-mail"
-        tuiTextfield
-        formControlName="email"
-    />
-</tui-textfield>
-</label>
+    <label tuiLabel class="w-full mt-4">
+      E-mail
+      <tui-textfield>
+        <input
+          placeholder="Insira o e-mail"
+          tuiTextfield
+          formControlName="email"
+        />
+      </tui-textfield>
+    </label>
 
-<label tuiLabel class="w-full mt-4">
-  Mensagem
-  <tui-textfield tuiTextfieldSi ze="m" >
+    <label tuiLabel class="w-full mt-4">
+      Mensagem
+      <tui-textfield tuiTextfieldSi ze="m" >
         <textarea
-            placeholder="Insira a mensagem"
-            formControlName="body"
-            tuiTextarea
-            [limit]="200"
-            [max]="6"
-            [min]="3"
+          placeholder="Insira a mensagem"
+          formControlName="body"
+          tuiTextarea
+          [limit]="200"
+          [max]="6"
+          [min]="3"
         ></textarea>
-    </tui-textfield>
-</label>
+      </tui-textfield>
+    </label>
 
-	<button
-    appearance="accent"
-    size="m"
-    tuiButton
-    type="button"
-    class="w-full mt-4"
-    [disabled]="formComment.invalid"
-    (click)="onSaveForm()"
->
-    <tui-icon icon="@tui.save" [style.height.rem]="1" />
-    Salvar
-</button>
+    <button
+      appearance="accent"
+      size="m"
+      tuiButton
+      type="button"
+      class="w-full mt-4"
+      [disabled]="formComment.invalid"
+      (click)="onSaveForm()"
+    >
+      <tui-icon icon="@tui.save" [style.height.rem]="1" />
+      Salvar
+    </button>
 
-</form>
+  </form>
 </div>

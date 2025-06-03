@@ -1,59 +1,74 @@
+
 # PostsProject
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.0.
+O projeto foi gerado usando [Angular CLI](https://github.com/angular/angular-cli) versão 20.0.0.
 
-## Development server
+## Tech Stack
 
-To start a local development server, run:
+**Client:** Angular, TailwindCSS, [Taiga Ui](https://taiga-ui.dev/)
 
-```bash
-ng serve
-```
+**Server:** [{JSON} Placeholder](https://jsonplaceholder.typicode.com/)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
+## Features
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Tema light/dark
+- Visualizção mobile responsivo
+- Suporte a LocalStorage
+- CRUD de posts (local e via API)
+- CRUD de comentários (local e via API)
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Running locally
+Clone o projeto
 
 ```bash
-ng generate --help
+  git clone https://github.com/karolineandrade/posts-project.git
 ```
 
-## Building
-
-To build the project run:
+Acesse o repositório
 
 ```bash
-ng build
+  cd posts-project
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Instale as dependências
 
 ```bash
-ng test
+  npm install
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+Inicie o server
 
 ```bash
-ng e2e
+  ng serve
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
-## Additional Resources
+## Browser support - Desktop
+- Google Chrome: versão 88 ou superior
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Mozilla Firefox: versão 120 ou superior
+
+- Safari: versão 13.1 ou superior
+
+- Opera: versão 74 ou superior
+
+- Microsoft Edge: versão 88 ou superior
+
+- Yandex Browser: versão 21.2 ou superior
+
+- Internet Explorer: não é suportado
+
+## Browser support - Mobile
+
+- Google Chrome: versão 88 ou superior
+
+- Mozilla Firefox: versão 120 ou superior
+
+- Safari: versão 13.4 ou superior
+
+- Opera: versão 63 ou superior
+
+- Samsung Internet: versão 15 ou superior
+
+- Yandex Browser: versão 21.2 ou superior
