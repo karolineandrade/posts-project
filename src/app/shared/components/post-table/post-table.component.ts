@@ -11,8 +11,8 @@ import { PostInterface } from '../../interface/PostInterface';
   selector: 'app-post-table',
   templateUrl: './post-table.component.html',
   styleUrls: ['./post-table.component.css'],
-  imports: [CommonModule, FormsModule, TuiTable, TuiTooltip, TuiHint, TuiAvatar, TuiAutoColorPipe, TuiButton, TuiPagination,
-    TuiButtonSelect, TuiDataListWrapper, TuiIcon, TuiTablePagination, TuiSkeleton],
+  imports: [CommonModule, FormsModule, TuiTable, TuiHint, TuiAvatar, TuiAutoColorPipe, TuiButton, TuiPagination,
+    TuiButtonSelect, TuiDataListWrapper, TuiSkeleton],
   providers: [
     tuiTablePaginationOptionsProvider({
       showPages: true

@@ -4,13 +4,14 @@ import { PostInterface } from '../../interface/PostInterface';
 import { TuiAppearance, TuiAutoColorPipe, TuiButton, TuiDataList, TuiDropdown, TuiIcon } from '@taiga-ui/core';
 import { TuiAvatar, TuiBadge, TuiChevron, TuiSkeleton } from '@taiga-ui/kit';
 import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
+import {TuiSwipeActions} from '@taiga-ui/addon-mobile';
 
 @Component({
   selector: 'app-post-item',
   templateUrl: './post-item.component.html',
   styleUrls: ['./post-item.component.css'],
   imports: [CommonModule, TuiAppearance, TuiDataList,
-        TuiDropdown, TuiBadge, TuiButton, TuiCardLarge, TuiHeader, TuiChevron, TuiAvatar, TuiAutoColorPipe, TuiIcon, TuiSkeleton
+        TuiDropdown, TuiBadge, TuiButton, TuiCardLarge, TuiHeader, TuiChevron, TuiAvatar, TuiAutoColorPipe, TuiIcon, TuiSkeleton, TuiSwipeActions
   ]
 })
 export class PostItemComponent {
@@ -22,8 +23,8 @@ export class PostItemComponent {
   @Output() onDeletePost = new EventEmitter<number>();
   constructor() { }
 
-  view(post: PostInterface): void {
-    this.onViewPost.emit(post);
+  view(): void {
+    this.onViewPost.emit(this.post());
   }
 
   edit(): void {

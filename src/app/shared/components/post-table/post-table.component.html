@@ -5,7 +5,7 @@
   [columns]="displayedColumns"
 >
   <caption tuiCaption>
-    <span class="text-base">{{ resultsLength() }} itens</span>
+    <span class="text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base">{{ resultsLength() }} itens</span>
     <button
       appearance="flat-grayscale"
       tuiButton
@@ -46,17 +46,17 @@
     @for(post of paginatedPosts(); track $index) {
       <tr tuiTr class="rounded-xl">
         <td *tuiCell="'number'" tuiTd>
-              <span class="text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text': '' ">
-                {{ !!isLoadingResults() ? '' : $index + 1 }}
+              <span class="text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text': '' ">
+                {{ !!isLoadingResults() ? '' : post.id }}
               </span>
         </td>
         <td *tuiCell="'title'" tuiTd>
-              <span class="text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
+              <span class="text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
               {{ !!isLoadingResults() ? '' : post.title}}
             </span>
         </td>
         <td *tuiCell="'user'" tuiTd>
-          <span class="text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
+          <span class="text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
               <tui-avatar
                 class="me-3"
                 src="@tui.user"
@@ -65,7 +65,7 @@
           </span>
         </td>
         <td *tuiCell="'body'" tuiTd>
-          <span class="text-overflow text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
+          <span class="text-overflow text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base font-light" [tuiSkeleton]="!!isLoadingResults() ? 'This text serves as the content behind the skeleton and depending on its length, the skeleton will adjust to fit it.': '' ">
             {{ !!isLoadingResults() ? '' : (post.body | slice:0:50) }}{{ post?.body!.length > 50 ? '...' : ''}}
           </span>
         </td>
@@ -75,10 +75,10 @@
                 [tuiSkeleton]="!!isLoadingResults() ? 'This text serves': '' ">
         @if(!!!isLoadingResults()) {
           <button
-            class="me-4"
+            class="m-1"
             appearance="secondary-grayscale"
             iconStart="@tui.eye"
-            size="m"
+            size="s"
             tuiIconButton
             type="button"
             tuiHint="Visualizar"
@@ -88,10 +88,10 @@
           Visualizar
         </button>
           <button
-            class="me-4"
+            class="m-1"
             appearance="secondary-grayscale"
             iconStart="@tui.pencil"
-            size="m"
+            size="s"
             tuiIconButton
             type="button"
             tuiHint="Editar"
@@ -101,9 +101,10 @@
             Editar
           </button>
           <button
+            class="m-1"
             appearance="secondary-grayscale"
             iconStart="@tui.trash"
-            size="m"
+            size="s"
             tuiIconButton
             type="button"
             tuiHint="Deletar"
