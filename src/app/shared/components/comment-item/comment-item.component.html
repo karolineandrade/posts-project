@@ -6,7 +6,7 @@
       size="m"
       [tuiSkeleton]="!!isLoading()"
       [style.background]=" getFirstChar(comment()?.name!) | tuiAutoColor"
-    />   <span class="font-bold ms-2" [tuiSkeleton]="!!isLoading() ? 'This text serves as the content behind the skeleton and depending': '' ">
+    />   <span class="font-bold text-base sm:text-lg md:text-xl lg:text-sm xl:text-xs ms-2" [tuiSkeleton]="!!isLoading() ? 'This text serves as the content behind the skeleton and depending': '' ">
     @if(!!!isLoading()) {
       {{comment()?.name}} <span class="font-normal italic">({{ comment()?.email }})</span>
     }
@@ -19,7 +19,9 @@
     tuiCardLarge
     [tuiSkeleton]="!!isLoading()"
   >
+  <span class="text-base sm:text-lg md:text-xl lg:text-sm xl:text-xs">
     {{comment()?.body}}
+  </span>
   </section>
 
   <div class="flex flex-row justify-end">

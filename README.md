@@ -13,11 +13,12 @@ O projeto foi gerado usando [Angular CLI](https://github.com/angular/angular-cli
 ## Features
 
 - Tema light/dark
+- Visualizção mobile responsivo
 - Suporte a LocalStorage
 - CRUD de posts (local e via API)
 - CRUD de comentários (local e via API)
 
-## Rodando localmente
+## Running locally
 Clone o projeto
 
 ```bash
@@ -43,7 +44,7 @@ Inicie o server
 ```
 
 
-## Navegadores Desktop Suportados
+## Browser support - Desktop
 - Google Chrome: versão 88 ou superior
 
 - Mozilla Firefox: versão 120 ou superior
@@ -58,7 +59,7 @@ Inicie o server
 
 - Internet Explorer: não é suportado
 
-## Navegadores mobiles
+## Browser support - Mobile
 
 - Google Chrome: versão 88 ou superior
 
