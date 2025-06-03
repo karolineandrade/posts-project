@@ -81,8 +81,6 @@ export class PostsComponent implements OnInit, OnChanges {
       this.listAllPosts();
     }
     this.listPostsStorage();
-
-
   }
 
 
@@ -93,7 +91,8 @@ export class PostsComponent implements OnInit, OnChanges {
           this.isLoadingResults = false;
           // this.posts = response;
           // this.resultsLength = response.length;
-          this.storageService.saveToStorage('posts', JSON.stringify(response))
+          this.storageService.saveToStorage('posts', JSON.stringify(response));
+          this.listPostsStorage();
         },
         error: (err: Error) => {
           console.error(err);
@@ -108,7 +107,6 @@ export class PostsComponent implements OnInit, OnChanges {
     this.posts = storageList ? JSON.parse(storageList) as PostInterface[] : [];
     this.resultsLength = this.posts.length;
     this.cdr.markForCheck();
-
   }
 
 
@@ -215,7 +213,6 @@ export class PostsComponent implements OnInit, OnChanges {
     this.isEdit = isEdit
     this.dialog(post).subscribe({
       next: (data) => {
-        console.info(`Dialog emitted data = ${data}`);
         if(isEdit) {
           this.editPost(data, post?.id);
         } else {
@@ -223,11 +220,9 @@ export class PostsComponent implements OnInit, OnChanges {
         }
       },
       complete: () => {
-        this.listAllPosts();
+        this.listPostsStorage();
         console.info('Dialog closed');
       },
-
-
     });
   }
 
@@ -243,5 +238,10 @@ export class PostsComponent implements OnInit, OnChanges {
       this.addComment = false;
     });
   }
+
+  goToPage(index: number): void {
+        this.pageIndex = index;
+        console.info('New page:', index);
+    }
 
 }

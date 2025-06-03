@@ -5,7 +5,7 @@
 
       <button
         appearance="secondary"
-        size="m"
+        size="s"
         tuiButton
         type="button"
         (click)="showDialogPost(false)"
@@ -15,8 +15,8 @@
       </button>
     </div>
 
-    <!-- <div class="flex w-full" *ngIf="breakpoint$ | async as breakpoint">
-      @if(breakpoint === 'desktopSmall' || breakpoint === 'desktopLarge' ) { -->
+    <div class="flex w-full" *ngIf="breakpoint$ | async as breakpoint">
+      @if(breakpoint === 'desktopSmall' || breakpoint === 'desktopLarge' ) {
     <app-post-table
       class="w-full"
       [posts]="posts"
@@ -31,13 +31,26 @@
       (onEditPost)="showDialogPost(true, $event)"
       (onDeletePost)="deletePost($event)"
     ></app-post-table>
-    <!-- } @else if (breakpoint === 'mobile') {
+    } @else if (breakpoint === 'mobile') {
     <div class=" flex flex-col w-full">
      @for(post of paginatedData(); track $index) {
-     <app-post-item [post]="post" class="w-full"></app-post-item>
+      <app-post-item
+        class="w-full"
+        [post]="post"
+        (onViewPost)="onSelectPost($event)"
+        (onEditPost)="showDialogPost(true, $event)"
+        (onDeletePost)="deletePost($event)"
+        >
+    </app-post-item>
       }
+    <tui-pagination
+        size="m"
+        [index]="pageIndex"
+        [length]="resultsLength"
+        (indexChange)="goToPage($event)"
+    />
     </div>
-    } -->
+    }
   </div>
   <div>
 
@@ -77,7 +90,7 @@
     <footer>
       <button
         appearance="grayscale"
-        size="m"
+        size="s"
         tuiButton
         type="button"
         [style.margin-inline-end]="'auto'"
