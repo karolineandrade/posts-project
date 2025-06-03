@@ -2,7 +2,7 @@ import { PostInterface } from './../shared/interface/PostInterface';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnChanges, OnInit, signal, SimpleChanges, ViewChild } from '@angular/core';
 import { PostsService } from '../shared/service/posts.service';
 import { CommonModule } from '@angular/common';
-import {tuiDialog, TuiIcon, TuiPopup} from '@taiga-ui/core';
+import {tuiDialog, TuiDropdown, TuiIcon, TuiPopup} from '@taiga-ui/core';
 import {TuiTable, TuiTablePaginationEvent} from '@taiga-ui/addon-table';
 import {TuiButton} from '@taiga-ui/core';
 import { TuiTablePagination, tuiTablePaginationOptionsProvider} from '@taiga-ui/addon-table';
@@ -12,12 +12,23 @@ import { DialogPostComponent } from './dialog-post/dialog-post.component';
 import { StorageService } from '../shared/service/storage.service';
 import { CommentsComponent } from '../comments/comments.component';
 import {TuiDrawer} from '@taiga-ui/kit';
+import {TuiButtonSelect, TuiDataListWrapper, TuiPagination} from '@taiga-ui/kit';
+import { TuiContext, TuiStringHandler } from '@taiga-ui/cdk/types';
+import { FormsModule } from '@angular/forms';
+import {TuiCell} from '@taiga-ui/layout';
+import {TuiAvatar} from '@taiga-ui/kit';
+import {TuiAutoColorPipe, TuiHint} from '@taiga-ui/core';
+import { PostItemComponent } from "../shared/components/post-item/post-item.component";
+import {TuiTooltip} from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css'],
-  imports: [CommonModule, TuiTable, TuiButton, TuiIcon, TuiTablePagination, TuiSkeleton, TuiDrawer, TuiPopup, CommentsComponent ],
+  imports: [CommonModule, FormsModule, TuiTable, TuiTooltip, TuiDropdown,
+    TuiHint, TuiAvatar, TuiAutoColorPipe, TuiButton, TuiPagination, TuiButtonSelect,
+    TuiDataListWrapper, TuiIcon, TuiTablePagination, TuiSkeleton, TuiDrawer, TuiPopup,
+    CommentsComponent, PostItemComponent],
   providers: [
         tuiTablePaginationOptionsProvider({
             showPages: true
@@ -33,7 +44,7 @@ export class PostsComponent implements OnInit, OnChanges {
   readonly openDrawer = signal(false);
 
   public posts: PostInterface[] = [];
-  public displayedColumns: string[] = ['number', 'title', 'body', 'actions'];
+  public displayedColumns: string[] = ['number', 'title', 'user', 'body', 'actions'];
   public resultsLength = 0;
   public pageSize = 10;
   public pageIndex = 0;
@@ -41,6 +52,7 @@ export class PostsComponent implements OnInit, OnChanges {
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public isEdit = false;
+  public open = false;
   public label = 'Adicionar';
   public selectedPost!: PostInterface;
 
@@ -49,6 +61,9 @@ export class PostsComponent implements OnInit, OnChanges {
         label: this.label,
     });
 
+  protected readonly content: TuiStringHandler<TuiContext<number>> = ({$implicit}) =>
+        `Exibindo ${$implicit}`;
+Math: any;
 
   constructor() { }
 
@@ -220,4 +235,8 @@ onSelectPost(post: PostInterface): void {
   this.selectedPost = post;
   this.openDrawer.set(!this.openDrawer());
 }
+
+protected onClick(): void {
+        this.open = !this.open;
+    }
 }

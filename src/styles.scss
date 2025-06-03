@@ -1,10 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
-@import "tailwindcss";
+@use "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import '@taiga-ui/core/styles/taiga-ui-local.scss';
+
 html, body { height: 100%; }
 body {
   margin: 0;
-  font-family: "Montserrat Alternates", sans-serif !important;
-  font-size: 18px;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 12px;
+}
+
+
+:root, [tuiTheme=light] {
+  --tui-font-text: "Montserrat", sans-serif !important;
+  --tui-font-size: 18px;
+  --tui-background-base: rgb(244, 246, 250);
+
+  }
+
+:root, [tuiTheme=dark] {
+    --tui-font-text: "Montserrat", sans-serif !important;
+  --tui-background-base: #1f1f1f;
+
 }

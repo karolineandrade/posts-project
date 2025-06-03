@@ -1,6 +1,58 @@
 .table {
     inline-size: 100%;
-  font-family: "Montserrat Alternates", sans-serif !important;
-
 }
 
+.text-ellipsis {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* [tuiTable] {
+  background: #fff;
+
+}
+[tuiTh] {
+  height: 60px;
+  font-size: 18px;
+}
+
+[tuiThGroup] {
+  border-radius: 30px;
+}
+
+[tuiTbody] {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px !important;
+}
+[tuiTh],
+[tuiTd] {
+  font-size: 18px;
+  background: #fff !important;
+    border-inline-start: none;
+    border-inline-end: none;
+} */
+ [tuiTh] {
+  height: 60px;
+  font-size: 18px;
+}
+
+ [tuiTh],
+[tuiTd] {
+  font-size: 18px;
+  border-inline-start: none;
+  border-inline-end: none;
+}
+
+    [tuiTheme='dark'] {
+        color-scheme: dark;
+       [tuiTh],
+[tuiTd] {
+  font-size: 18px;
+  border-inline-start: none;
+  border-inline-end: none;
+  background:  blue;
+}
+      }
