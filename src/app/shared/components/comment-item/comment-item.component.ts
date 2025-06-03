@@ -25,7 +25,8 @@ export class CommentItemComponent {
    deleteComment(index: number): void {
     this.onDelete.emit(index);
   }
+
   getFirstChar(fullName: string): string {
-  return fullName.charAt(0).toUpperCase();
-}
+    return fullName.charAt(0).toUpperCase();
+  }
 }

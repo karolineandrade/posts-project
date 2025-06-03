@@ -1,7 +1,7 @@
 import { PostInterface } from './../shared/interface/PostInterface';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnChanges, OnInit, signal, SimpleChanges, ViewChild } from '@angular/core';
 import { PostsService } from '../shared/service/posts.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, AsyncPipe } from '@angular/common';
 import {tuiDialog, TuiDropdown, TuiIcon, TuiPopup} from '@taiga-ui/core';
 import {TuiTable, TuiTablePaginationEvent} from '@taiga-ui/addon-table';
 import {TuiButton} from '@taiga-ui/core';
@@ -18,17 +18,18 @@ import { FormsModule } from '@angular/forms';
 import {TuiCell, TuiHeader} from '@taiga-ui/layout';
 import {TuiAvatar} from '@taiga-ui/kit';
 import {TuiAutoColorPipe, TuiHint} from '@taiga-ui/core';
-import { PostItemComponent } from "../shared/components/post-item/post-item.component";
 import {TuiTooltip} from '@taiga-ui/kit';
-
+import {TuiBreakpointService} from '@taiga-ui/core';
+import { PostTableComponent } from "../shared/components/post-table/post-table.component";
+import { PostItemComponent } from "../shared/components/post-item/post-item.component";
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css'],
   imports: [CommonModule, FormsModule, TuiTable, TuiTooltip, TuiDropdown,
     TuiHint, TuiAvatar, TuiAutoColorPipe, TuiButton, TuiPagination, TuiButtonSelect, TuiHeader,
-    TuiDataListWrapper, TuiIcon, TuiTablePagination, TuiSkeleton, TuiDrawer, TuiPopup,
-    CommentsComponent, PostItemComponent],
+    TuiDataListWrapper, TuiIcon, TuiTablePagination, TuiSkeleton, TuiDrawer, TuiPopup, AsyncPipe,
+    CommentsComponent, PostTableComponent, PostItemComponent],
   providers: [
         tuiTablePaginationOptionsProvider({
             showPages: true
@@ -40,11 +41,11 @@ export class PostsComponent implements OnInit, OnChanges {
   private postsService: PostsService = inject(PostsService);
   private alertService: AlertsService = inject(AlertsService);
   private storageService: StorageService = inject(StorageService);
+  protected readonly breakpoint$ = inject(TuiBreakpointService);
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   readonly openDrawer = signal(false);
 
   public posts: PostInterface[] = [];
-  public displayedColumns: string[] = ['number', 'title', 'user', 'body', 'actions'];
   public resultsLength = 0;
   public pageSize = 10;
   public pageIndex = 0;
@@ -63,7 +64,7 @@ export class PostsComponent implements OnInit, OnChanges {
 
   protected readonly content: TuiStringHandler<TuiContext<number>> = ({$implicit}) =>
         `Exibindo ${$implicit}`;
-Math: any;
+
 
   constructor() { }
 
@@ -111,9 +112,9 @@ private listPostsStorage(): void {
 }
 
 
-onPageChange(event: TuiTablePaginationEvent) {
-  this.pageIndex = event.page ?? this.pageIndex;
-  this.pageSize = event.size ?? this.pageSize;
+onPageChange(event: { pageIndex: number; pageSize: number }) {
+  this.pageIndex = event.pageIndex;
+  this.pageSize = event.pageSize;
 }
 
 
@@ -185,7 +186,7 @@ editPostStorage(data: PostInterface): void {
   this.listPostsStorage();
 }
 
-deletePost(index: number): void {
+deletePost(index: any): void {
   this.isLoadingResults = true;
   this.postsService.deletePost(index).subscribe({
     next: (response) => {
@@ -210,7 +211,7 @@ deletePostStorage(postId: number): void {
   }
 }
 
-showDialogPost(isEdit: boolean, post?: PostInterface): void {
+showDialogPost(isEdit: boolean, post?: any): void {
   this.isEdit = isEdit
     this.dialog(post).subscribe({
         next: (data) => {
@@ -230,13 +231,13 @@ showDialogPost(isEdit: boolean, post?: PostInterface): void {
     });
 }
 
-onSelectPost(post: PostInterface): void {
+onSelectPost(post: any): void {
   this.selectedPost = post;
+  console.log(post)
   this.openDrawer.set(!this.openDrawer());
 }
 
 onAddComment(): void {
-  console.info('rrrr')
   this.addComment = true;
   setTimeout(() => {
     this.addComment = false;
